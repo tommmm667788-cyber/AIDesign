@@ -1,5 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
-import { DesignStyle, RoomContext } from "../types";
+import { DesignStyle } from "../types";
+import type { RoomContext } from "../types";
+
+// Khai báo process để tránh lỗi TypeScript khi build với Vite
+declare const process: any;
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
@@ -41,7 +45,8 @@ export const analyzeRoom = async (imageBase64: string, context?: RoomContext): P
       }
     });
 
-    return response.text || "Không thể phân tích hình ảnh. Vui lòng thử lại.";
+    // Ép kiểu hoặc cung cấp giá trị mặc định để tránh lỗi undefined
+    return response.text ?? "Không thể phân tích hình ảnh. Vui lòng thử lại.";
   } catch (error) {
     console.error("Error analyzing room:", error);
     throw new Error("Lỗi khi kết nối với AI để phân tích.");
@@ -104,7 +109,8 @@ export const generateRoomDesign = async (
     if (response.candidates && response.candidates.length > 0) {
       for (const part of response.candidates[0].content.parts) {
         if (part.inlineData) {
-          generatedImageBase64 = part.inlineData.data;
+          // Fix: thêm fallback || '' để tránh lỗi TS2532: Object is possibly undefined
+          generatedImageBase64 = part.inlineData.data || '';
           break;
         }
       }

@@ -1,4 +1,5 @@
-import { DesignStyle, StyleOption } from './types';
+import { DesignStyle } from './types';
+import type { StyleOption } from './types';
 
 export const STYLES: StyleOption[] = [
   {
@@ -45,7 +46,7 @@ export const STYLES: StyleOption[] = [
   },
   {
     id: DesignStyle.CLASSIC,
-    name: 'Cổ điển (Classic)',constants.ts
+    name: 'Cổ điển (Classic)',
     description: 'Chi tiết cầu kỳ, đối xứng, vẻ đẹp vượt thời gian.',
     image: 'https://picsum.photos/400/300?random=8',
   },

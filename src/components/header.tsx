@@ -1,4 +1,3 @@
-import React from 'react';
 import { Sofa, Sparkles } from 'lucide-react';
 
 const Header: React.FC = () => {
