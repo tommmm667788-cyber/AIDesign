@@ -1,4 +1,3 @@
-import React from 'react';
 import { Lightbulb, Loader2 } from 'lucide-react';
 
 interface SuggestionBoxProps {
@@ -7,7 +6,7 @@ interface SuggestionBoxProps {
   onAnalyze: () => void;
 }
 
-const SuggestionBox: React.FC<SuggestionBoxProps> = ({ suggestion, loading, onAnalyze }) => {
+const SuggestionBox = ({ suggestion, loading, onAnalyze }: SuggestionBoxProps) => {
   return (
     <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-100 shadow-sm">
       <div className="flex items-start gap-4">

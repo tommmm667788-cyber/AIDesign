@@ -6,7 +6,7 @@ interface ResultViewProps {
   generatedImage: string;
 }
 
-const ResultView: React.FC<ResultViewProps> = ({ originalImage, generatedImage }) => {
+const ResultView = ({ originalImage, generatedImage }: ResultViewProps) => {
   const [activeTab, setActiveTab] = useState<'generated' | 'original' | 'compare'>('generated');
 
   const downloadImage = () => {
