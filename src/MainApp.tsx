@@ -61,9 +61,9 @@ function MainApp() {
       const result = await analyzeRoom(originalImage, getContext());
       setSuggestion(result);
       setAnalysisStatus('success');
-    } catch (error) {
+    } catch (error: any) {
       setAnalysisStatus('error');
-      toast.error('Không thể phân tích ảnh. Vui lòng thử lại.');
+      toast.error(error.message || 'Không thể phân tích ảnh. Vui lòng thử lại.');
     }
   };
 
@@ -95,9 +95,10 @@ function MainApp() {
          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       }, 100);
 
-    } catch (error) {
+    } catch (error: any) {
       setGenerationStatus('error');
-      toast.error('Đã có lỗi xảy ra khi tạo ảnh. Vui lòng thử lại.');
+      // Hiển thị thông báo lỗi cụ thể từ Service
+      toast.error(error.message || 'Đã có lỗi xảy ra khi tạo ảnh.');
     }
   };
 

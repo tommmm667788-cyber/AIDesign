@@ -1,17 +1,48 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load env file based on `mode` in the current working directory.
-  // We use process.cwd() to get the root directory.
-  // Typecasting process to any to avoid potential strict type check issues with 'cwd'
   const env = loadEnv(mode, (process as any).cwd(), '');
 
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['logo.svg'], // Thêm logo.svg vào danh sách assets
+        manifest: {
+          name: 'AI Interior Designer',
+          short_name: 'AI Design',
+          description: 'Thiết kế nội thất căn phòng của bạn bằng AI',
+          theme_color: '#4f46e5',
+          background_color: '#ffffff',
+          display: 'standalone',
+          orientation: 'portrait',
+          start_url: '/',
+          icons: [
+            {
+              src: 'logo.svg', // Sử dụng tạm SVG cho icon (lưu ý: iOS và một số Android cần PNG)
+              sizes: 'any',
+              type: 'image/svg+xml',
+              purpose: 'any maskable'
+            },
+            {
+              src: 'pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: 'pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            }
+          ]
+        }
+      })
+    ],
     define: {
-      // Vital step: Map the API_KEY from Netlify/System env to import.meta.env.VITE_API_KEY
       'import.meta.env.VITE_API_KEY': JSON.stringify(env.API_KEY),
     },
   };

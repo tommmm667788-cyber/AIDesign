@@ -11,12 +11,24 @@ if (!apiKey) {
 
 const ai = new GoogleGenAI({ apiKey: apiKey || '' });
 
+// Helper để tách MIME type và data chuẩn xác
+const parseBase64 = (base64String: string) => {
+  const match = base64String.match(/^data:(image\/[a-zA-Z+]+);base64,(.+)$/);
+  if (!match) {
+    throw new Error("Dữ liệu ảnh không hợp lệ");
+  }
+  return {
+    mimeType: match[1],
+    data: match[2]
+  };
+};
+
 /**
  * Analyzes the room image and provides design suggestions in Vietnamese.
  */
 export const analyzeRoom = async (imageBase64: string, context?: RoomContext): Promise<string> => {
   try {
-    const cleanBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
+    const { mimeType, data } = parseBase64(imageBase64);
 
     let contextPrompt = "";
     if (context) {
@@ -29,8 +41,8 @@ export const analyzeRoom = async (imageBase64: string, context?: RoomContext): P
         parts: [
           {
             inlineData: {
-              mimeType: 'image/jpeg',
-              data: cleanBase64
+              mimeType: mimeType,
+              data: data
             }
           },
           {
@@ -66,7 +78,7 @@ export const generateRoomDesign = async (
   customPrompt?: string
 ): Promise<string> => {
   try {
-    const cleanBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
+    const { mimeType, data } = parseBase64(imageBase64);
 
     // Build a more spatial-aware prompt
     let scaleInstruction = "Ensure furniture proportions are realistic.";
@@ -96,8 +108,8 @@ export const generateRoomDesign = async (
         parts: [
           {
             inlineData: {
-              mimeType: 'image/jpeg',
-              data: cleanBase64
+              mimeType: mimeType, // Sử dụng đúng định dạng ảnh (png/jpeg)
+              data: data
             }
           },
           {
@@ -108,6 +120,7 @@ export const generateRoomDesign = async (
     });
 
     let generatedImageBase64 = '';
+    let refusalReason = '';
     
     // Sử dụng optional chaining để an toàn
     const candidate = response.candidates?.[0];
@@ -119,17 +132,26 @@ export const generateRoomDesign = async (
           generatedImageBase64 = part.inlineData.data;
           break;
         }
+        // Nếu AI trả về text thay vì ảnh, đó thường là lý do từ chối (safety, policy...)
+        if (part.text) {
+            refusalReason += part.text + " ";
+        }
       }
     }
 
     if (!generatedImageBase64) {
-      throw new Error("AI không trả về hình ảnh nào. Vui lòng thử lại.");
+      if (refusalReason) {
+        console.warn("AI Refusal:", refusalReason);
+        throw new Error(`AI không thể tạo ảnh: ${refusalReason.slice(0, 100)}...`);
+      }
+      throw new Error("AI không trả về hình ảnh nào. Có thể do bộ lọc an toàn.");
     }
 
     return `data:image/png;base64,${generatedImageBase64}`;
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating design:", error);
-    throw new Error("Lỗi khi tạo thiết kế mới. Vui lòng thử lại.");
+    // Ném lỗi nguyên bản ra ngoài để UI hiển thị
+    throw new Error(error.message || "Lỗi khi tạo thiết kế mới.");
   }
 };
