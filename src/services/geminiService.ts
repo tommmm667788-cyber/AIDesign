@@ -1,7 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
-import { DesignStyle, RoomContext } from "../types";
+import { DesignStyle } from "../types";
+import type { RoomContext } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Sử dụng biến môi trường chuẩn Vite
+const apiKey = import.meta.env.VITE_API_KEY;
+
+if (!apiKey) {
+  console.error("API Key is missing! Please check your .env file or Netlify configuration.");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey || '' });
 
 /**
  * Analyzes the room image and provides design suggestions in Vietnamese.
@@ -41,7 +49,7 @@ export const analyzeRoom = async (imageBase64: string, context?: RoomContext): P
       }
     });
 
-    return response.text || "Không thể phân tích hình ảnh. Vui lòng thử lại.";
+    return response.text ?? "Không thể phân tích hình ảnh. Vui lòng thử lại.";
   } catch (error) {
     console.error("Error analyzing room:", error);
     throw new Error("Lỗi khi kết nối với AI để phân tích.");
@@ -104,7 +112,7 @@ export const generateRoomDesign = async (
     if (response.candidates && response.candidates.length > 0) {
       for (const part of response.candidates[0].content.parts) {
         if (part.inlineData) {
-          generatedImageBase64 = part.inlineData.data;
+          generatedImageBase64 = part.inlineData.data || '';
           break;
         }
       }
