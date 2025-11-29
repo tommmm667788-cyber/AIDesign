@@ -11,7 +11,7 @@ import { ROOM_AREAS, ROOM_TYPES } from './constants';
 import { analyzeRoom, generateRoomDesign } from './services/geminiService';
 import { Wand2, RefreshCcw, ArrowRight, Trash2, PenLine, Ruler, LayoutTemplate } from 'lucide-react';
 
-function App() {
+function MainApp() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<DesignStyle | null>(null);
@@ -251,4 +251,4 @@ function App() {
   );
 }
 
-export default App;
+export default MainApp;
