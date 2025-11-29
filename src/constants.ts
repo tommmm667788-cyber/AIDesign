@@ -1,5 +1,4 @@
-import { DesignStyle } from './types';
-import type { StyleOption } from './types';
+import { DesignStyle, StyleOption } from './types';
 
 export const STYLES: StyleOption[] = [
   {
