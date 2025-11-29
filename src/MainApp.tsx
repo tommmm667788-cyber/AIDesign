@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import Header from './components/Header';
+import PageHeader from './components/PageHeader';
 import ImageUploader from './components/ImageUploader';
 import StyleSelector from './components/StyleSelector';
 import SuggestionBox from './components/SuggestionBox';
@@ -104,7 +104,7 @@ function MainApp() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
       <Toaster position="top-center" />
-      <Header />
+      <PageHeader />
 
       <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
         

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MainApp from './MainApp'; // Đổi từ ./App sang ./MainApp
+import MainApp from './MainApp';
 import './index.css';
 
 const rootElement = document.getElementById('root');

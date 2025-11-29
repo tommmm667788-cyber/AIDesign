@@ -109,7 +109,7 @@ export const generateRoomDesign = async (
 
     let generatedImageBase64 = '';
     
-    // SỬA LỖI QUAN TRỌNG: Dùng optional chaining (?.) để truy cập an toàn
+    // Sử dụng optional chaining để an toàn
     const candidate = response.candidates?.[0];
     const parts = candidate?.content?.parts;
 
