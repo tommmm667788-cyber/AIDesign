@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
+import { useRef, type ChangeEvent, type DragEvent } from 'react';
 import { Upload, Image as ImageIcon } from 'lucide-react';
 
 interface ImageUploaderProps {
   onImageUpload: (base64: string) => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
+const ImageUploader = ({ onImageUpload }: ImageUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       processFile(file);
@@ -29,11 +29,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (file) {

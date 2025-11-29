@@ -109,10 +109,14 @@ export const generateRoomDesign = async (
 
     let generatedImageBase64 = '';
     
-    if (response.candidates && response.candidates.length > 0) {
-      for (const part of response.candidates[0].content.parts) {
-        if (part.inlineData) {
-          generatedImageBase64 = part.inlineData.data || '';
+    // SỬA LỖI QUAN TRỌNG: Dùng optional chaining (?.) để truy cập an toàn
+    const candidate = response.candidates?.[0];
+    const parts = candidate?.content?.parts;
+
+    if (parts) {
+      for (const part of parts) {
+        if (part.inlineData?.data) {
+          generatedImageBase64 = part.inlineData.data;
           break;
         }
       }

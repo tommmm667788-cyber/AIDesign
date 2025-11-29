@@ -1,6 +1,5 @@
-import React from 'react';
 import { STYLES } from '../constants';
-import { DesignStyle } from '../types';
+import type { DesignStyle } from '../types';
 import { CheckCircle2 } from 'lucide-react';
 
 interface StyleSelectorProps {
@@ -8,7 +7,7 @@ interface StyleSelectorProps {
   onSelectStyle: (style: DesignStyle) => void;
 }
 
-const StyleSelector: React.FC<StyleSelectorProps> = ({ selectedStyle, onSelectStyle }) => {
+const StyleSelector = ({ selectedStyle, onSelectStyle }: StyleSelectorProps) => {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-gray-900">2. Chọn phong cách thiết kế</h3>

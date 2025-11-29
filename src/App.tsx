@@ -1,11 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import Header from './components/Header';
 import ImageUploader from './components/ImageUploader';
 import StyleSelector from './components/StyleSelector';
 import SuggestionBox from './components/SuggestionBox';
 import ResultView from './components/ResultView';
-import { DesignStyle, LoadingState, RoomContext } from './types';
+import { DesignStyle } from './types';
+import type { LoadingState, RoomContext } from './types';
 import { ROOM_AREAS, ROOM_TYPES } from './constants';
 import { analyzeRoom, generateRoomDesign } from './services/geminiService';
 import { Wand2, RefreshCcw, ArrowRight, Trash2, PenLine, Ruler, LayoutTemplate } from 'lucide-react';
@@ -152,7 +153,7 @@ function App() {
                   <select 
                     value={roomType}
                     onChange={(e) => setRoomType(e.target.value)}
-                    className="w-full p-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full p-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                   >
                     {ROOM_TYPES.map(type => (
                       <option key={type.value} value={type.value}>{type.label}</option>
@@ -166,7 +167,7 @@ function App() {
                   <select 
                     value={roomArea}
                     onChange={(e) => setRoomArea(e.target.value)}
-                    className="w-full p-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full p-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                   >
                     {ROOM_AREAS.map(area => (
                       <option key={area.value} value={area.value}>{area.label}</option>
@@ -199,7 +200,7 @@ function App() {
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 placeholder="Ví dụ: Tôi muốn tường màu xanh ngọc, sàn gỗ sồi sáng màu, thêm một chậu cây lớn ở góc..."
-                className="w-full p-4 bg-white rounded-xl border-gray-200 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full p-4 bg-white rounded-xl border-gray-200 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white"
                 rows={3}
               />
             </section>

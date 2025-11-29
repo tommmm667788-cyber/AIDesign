@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Download, Maximize2, ArrowLeftRight } from 'lucide-react';
+import { useState } from 'react';
+import { Download } from 'lucide-react';
 
 interface ResultViewProps {
   originalImage: string;
   generatedImage: string;
 }
 
-const ResultView: React.FC<ResultViewProps> = ({ originalImage, generatedImage }) => {
+const ResultView = ({ originalImage, generatedImage }: ResultViewProps) => {
   const [activeTab, setActiveTab] = useState<'generated' | 'original' | 'compare'>('generated');
 
   const downloadImage = () => {
